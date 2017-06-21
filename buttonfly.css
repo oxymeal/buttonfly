@@ -1,0 +1,32 @@
+.buttonfly__row {
+  display: block;
+}
+.buttonfly__row--n1, .buttonfly__row--n-1 {
+  margin-left: 12px;
+}
+.buttonfly__row--n2, .buttonfly__row--n-2 {
+  margin-left: 24px;
+}
+.buttonfly__row--n3, .buttonfly__row--n-3 {
+  margin-left: 36px;
+}
+.buttonfly__row--n4, .buttonfly__row--n-4 {
+  margin-left: 48px;
+}
+
+.buttonfly__button {
+  display: inline-block;
+  box-sizing: border-box;
+  width: auto;
+  margin: 0;
+  padding: 6px 12px;
+
+  color: white;
+  background-color: rgb(101, 103, 194);
+  border: 1px solid rgb(45, 47, 126);
+}
+
+.buttonfly__button--main {
+  background-color: rgb(101, 144, 194);
+  border: 1px solid rgb(45, 82, 126);
+}
