@@ -1,6 +1,6 @@
 .buttonfly {
   transform-origin: left;
-  transition: transform 1px ease;
+  transition: transform 0.1s ease;
 }
 
 .buttonfly__row {
