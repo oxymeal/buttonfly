@@ -1,3 +1,8 @@
+.buttonfly {
+  transform-origin: left;
+  transition: transform 1px ease;
+}
+
 .buttonfly__row {
   display: block;
 }

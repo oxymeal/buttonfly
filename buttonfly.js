@@ -52,6 +52,14 @@
       var rowElem = _this.getOrCreateRowElement(rowNumber);
       rowElem.append(btn);
     });
+
+    document.addEventListener('mousemove', function (e) {
+      if (_this.isShown()) {
+        _this.set3dRotation(e.clientX, e.clientY);
+      } else {
+        _this.reset3dRotation();
+      }
+    });
   };
 
   ButtonFly.defaultOptions = {
@@ -59,6 +67,10 @@
     transitionDuration: 0.15,
     transitionDelay: 0.05,
     toggleOnMainButton: false,
+    rotationPixPerDeg: 25,
+    rotationMaxX: 20,
+    rotationMaxY: 20,
+    perspective: 1000,
   };
 
   ButtonFly.rowForButton = function (index) {
@@ -196,6 +208,30 @@
   ButtonFly.prototype.toggle = function () {
     if (this.isShown()) this.hide();
     else this.show();
+  };
+
+  ButtonFly.prototype.set3dRotation = function (cursorClientX, cursorClientY) {
+    var mainBtnRect = this.mainButton.getBoundingClientRect();
+    var refPointX = mainBtnRect.left;
+    var refPointY = mainBtnRect.top + mainBtnRect.height/2;
+
+    var deltaX = cursorClientX - refPointX;
+    var deltaY = cursorClientY - refPointY;
+
+    var rotY = deltaX / this.options.rotationPixPerDeg;
+    if (rotY > this.options.rotationMaxY) rotY = this.options.rotationMaxY;
+    if (rotY < -this.options.rotationMaxY) rotY = -this.options.rotationMaxY;
+
+    var rotX = - deltaY / this.options.rotationPixPerDeg;
+    if (rotX > this.options.rotationMaxX) rotY = this.options.rotationMaxX;
+    if (rotX < -this.options.rotationMaxX) rotY = -this.options.rotationMaxX;
+
+    var propValue = 'perspective('+this.options.perspective+'px) rotateY('+rotY+'deg) rotateX('+rotX+'deg)';
+    this.element.style.transform = propValue;
+  };
+
+  ButtonFly.prototype.reset3dRotation = function () {
+    this.element.style.transform = null;
   };
 
   window.ButtonFly = ButtonFly;
