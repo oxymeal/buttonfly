@@ -16,6 +16,8 @@
 }
 
 .buttonfly__button--child {
+  /* Transition duration (second value) is being set by the JS. */
+  /* It's useless to modify it here. */
   transition: transform 0.25s ease;
 }
 
