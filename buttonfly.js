@@ -68,7 +68,7 @@
     transitionDelay: 0.05,
     toggleOnMainButton: false,
     hover3dEffect: false,
-    rotationPixPerDeg: 25,
+    rotationPixPerDeg: 50,
     rotationMaxX: 20,
     rotationMaxY: 20,
     perspective: 1000,
@@ -199,6 +199,7 @@
 
   ButtonFly.prototype.hide = function () {
     this.resetTransitionDelays(true);
+    this.reset3dRotation();
     this.element.classList.add('buttonfly--hidden');
   };
 
