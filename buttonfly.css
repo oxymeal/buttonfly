@@ -26,11 +26,12 @@
 .buttonfly__button--child {
   /* Transition duration (second value) is being set by the JS. */
   /* It's useless to modify it here. */
-  transition: transform 0.25s ease;
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
 .buttonfly--hidden .buttonfly__button--child {
   transform: scale(0);
+  opacity: 0;
 }
 .buttonfly__row--top .buttonfly__button--child {
   transform-origin: bottom left;
