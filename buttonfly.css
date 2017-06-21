@@ -6,12 +6,30 @@
   display: inline-block;
   box-sizing: border-box;
   width: auto;
+  height: auto;
   margin: 0;
   padding: 6px 12px;
 
   color: white;
   background-color: rgb(101, 103, 194);
   border: 1px solid rgb(45, 47, 126);
+}
+
+.buttonfly__button--child {
+  transition: transform 0.25s ease;
+}
+
+.buttonfly--hidden .buttonfly__button--child {
+  transform: scale(0);
+}
+.buttonfly__row--top .buttonfly__button--child {
+  transform-origin: bottom left;
+}
+.buttonfly__row--middle .buttonfly__button--child {
+  transform-origin: left;
+}
+.buttonfly__row--bottom .buttonfly__button--child {
+  transform-origin: top left;
 }
 
 .buttonfly__button--main {

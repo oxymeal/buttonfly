@@ -25,7 +25,7 @@
       }
     }
 
-    // Save button elements.
+    // Update and save button elements.
     _this.element = element;
     _this.element.classList.add("buttonfly");
 
@@ -34,9 +34,13 @@
     _this.mainButton.classList.add("buttonfly__button--main");
 
     _this.childButtons = Array.prototype.slice.call(_this.element.children, 1);
-    _this.childButtons.forEach(function (btn) {
+    _this.childButtons.forEach(function (btn, index) {
       btn.classList.add("buttonfly__button");
       btn.classList.add("buttonfly__button--child");
+
+      btn.style.transitionDuration = _this.options.transitionDuration + 's';
+      var delayUnits = ButtonFly.transitionDelayForButton(index);
+      btn.style.transitionDelay = _this.options.transitionDelay * delayUnits + 's';
     });
 
     // Split elements into rows.
@@ -51,9 +55,15 @@
 
   ButtonFly.defaultOptions = {
     rowLeftMarginStep: 24,
+    transitionDuration: 0.25,
+    transitionDelay: 0.05,
   };
 
-  /// Returns a row number for button with given index.
+  ButtonFly.rowForButton = function (index) {
+    return ButtonFly.posForButton(index).row;
+  }
+
+  /// Returns a row number for button with given index and its position in the row.
   /// Button with index 0 - is the first child button in the element
   /// (excluding the main button).
   ///
@@ -66,18 +76,23 @@
   /// Row 0 (middle)
   /// Row -1
   /// Row -2
-  ButtonFly.rowForButton = function (index) {
+  ButtonFly.posForButton = function (index) {
+    var row, pos;
+
     if (index < 8) {
       // First three rows (top, middle, bottom) are filled.
       if (index % 3 == 0) {
         // First top row.
-        return 1;
+        row = 1;
+        pos = Math.floor(index/3);
       } else if (index % 3 == 1) {
         // First button row.
-        return -1;
+        row = -1;
+        pos = Math.floor(index/3);
       } else {
         // Middle row.
-        return 0;
+        row = 0;
+        pos = Math.floor(index/3) + 1;
       }
     } else {
       // Rows, farther than first 3, are filled.
@@ -85,12 +100,35 @@
       var distance = Math.floor(index/6) + 2;
       if (index % 2 == 0) {
         // Top row.
-        return distance;
+        row = distance;
+        pos = Math.floor(index/2) % 3;
       } else {
         // Bottom row.
-        return -distance;
+        row = -distance;
+        pos = Math.floor(index/2) % 3;
       }
     }
+
+    return { row: row, pos: pos };
+  }
+
+  /// Returns delay for button showing/hiding animations in delay units.
+  /// Delay unit is defined in stylesheet.
+  ButtonFly.transitionDelayForButton = function (index) {
+    var pos = ButtonFly.posForButton(index);
+
+    var rowDelay, posDelay;
+
+    var distance = Math.abs(pos.row);
+    if (distance <= 1) {
+      rowDelay = 0;
+    } else {
+      rowDelay = distance - 1;
+    }
+
+    posDelay = pos.pos;
+
+    return rowDelay + posDelay;
   }
 
   ButtonFly.prototype.getOrCreateRowElement = function (number) {
@@ -102,11 +140,14 @@
     elem.style.marginLeft = this.options.rowLeftMarginStep * Math.abs(number) + 'px';
 
     if (number == 0) {
+      elem.classList.add('buttonfly__row--middle');
       this.element.prepend(elem);
     } else if (number > 0) {
+      elem.classList.add('buttonfly__row--top');
       var refRow = this.getOrCreateRowElement(number - 1);
       this.element.insertBefore(elem, refRow);
     } else {
+      elem.classList.add('buttonfly__row--bottom');
       var refRow = this.getOrCreateRowElement(number + 1);
       this.element.insertBefore(elem, refRow.nextSibling);
     }
@@ -114,6 +155,14 @@
     this.rowElements[number] = elem;
 
     return elem;
+  };
+
+  ButtonFly.prototype.show = function () {
+    this.element.classList.remove('buttonfly--hidden');
+  };
+
+  ButtonFly.prototype.hide = function () {
+    this.element.classList.add('buttonfly--hidden');
   };
 
   window.ButtonFly = ButtonFly;
