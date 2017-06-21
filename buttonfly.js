@@ -54,7 +54,7 @@
     });
 
     document.addEventListener('mousemove', function (e) {
-      if (_this.isShown()) {
+      if (_this.isShown() && _this.options.hover3dEffect) {
         _this.set3dRotation(e.clientX, e.clientY);
       } else {
         _this.reset3dRotation();
@@ -67,6 +67,7 @@
     transitionDuration: 0.15,
     transitionDelay: 0.05,
     toggleOnMainButton: false,
+    hover3dEffect: false,
     rotationPixPerDeg: 25,
     rotationMaxX: 20,
     rotationMaxY: 20,
