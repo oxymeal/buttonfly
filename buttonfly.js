@@ -1,17 +1,31 @@
 (function () {
-  var ButtonFly = function (element) {
+  var ButtonFly = function (element, options) {
     var _this = this;
 
+    // Sanity assertions.
     if (_this === window) {
       console.error("ButtonFly is a class constructor, can't call it without 'new'!");
       return;
     }
-
     if (element.children.length < 1) {
       console.error("ButtonFly element has no children. At least one child is required.");
       return;
     }
 
+    // Construct options object.
+    this.options = {};
+    for (var key in ButtonFly.defaultOptions) {
+      if (ButtonFly.defaultOptions.hasOwnProperty(key)) {
+        this.options[key] = ButtonFly.defaultOptions[key];
+      }
+    }
+    for (var key in options) {
+      if (options.hasOwnProperty(key)) {
+        this.options[key] = options[key];
+      }
+    }
+
+    // Save button elements.
     _this.element = element;
     _this.element.classList.add("buttonfly");
 
@@ -25,14 +39,18 @@
       btn.classList.add("buttonfly__button--child");
     });
 
+    // Split elements into rows.
     _this.rowElements = {};
-
     _this.getOrCreateRowElement(0).append(this.mainButton);
     _this.childButtons.forEach(function (btn, index) {
       var rowNumber = ButtonFly.rowForButton(index);
       var rowElem = _this.getOrCreateRowElement(rowNumber);
       rowElem.append(btn);
     });
+  };
+
+  ButtonFly.defaultOptions = {
+    rowLeftMarginStep: 24,
   };
 
   /// Returns a row number for button with given index.
@@ -81,6 +99,7 @@
     var elem = document.createElement('div');
     elem.classList.add('buttonfly__row');
     elem.classList.add('buttonfly__row--n' + number.toString());
+    elem.style.marginLeft = this.options.rowLeftMarginStep * Math.abs(number) + 'px';
 
     if (number == 0) {
       this.element.prepend(elem);
