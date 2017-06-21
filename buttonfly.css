@@ -13,11 +13,14 @@
   width: auto;
   height: auto;
   margin: 0;
-  padding: 6px 12px;
+  padding: 12px 36px;
 
-  color: white;
   background-color: rgb(101, 103, 194);
   border: 1px solid rgb(45, 47, 126);
+
+  color: white;
+  font-size: 24px;
+  text-decoration: none;
 }
 
 .buttonfly__button--child {
