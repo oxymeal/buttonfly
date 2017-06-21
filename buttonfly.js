@@ -42,8 +42,6 @@
       btn.classList.add("buttonfly__button--child");
 
       btn.style.transitionDuration = _this.options.transitionDuration + 's';
-      var delayUnits = ButtonFly.transitionDelayForButton(index);
-      btn.style.transitionDelay = _this.options.transitionDelay * delayUnits + 's';
     });
 
     // Split elements into rows.
@@ -58,7 +56,7 @@
 
   ButtonFly.defaultOptions = {
     rowLeftMarginStep: 24,
-    transitionDuration: 0.25,
+    transitionDuration: 0.15,
     transitionDelay: 0.05,
     toggleOnMainButton: false,
   };
@@ -135,6 +133,26 @@
     return rowDelay + posDelay;
   }
 
+  // Updates 'transition-delay' property on all child buttons.
+  // If reverse is true - farther buttons will have lower delay.
+  // If reverse is false or non provided - farther buttons will have bigger delay.
+  ButtonFly.prototype.resetTransitionDelays = function (reverse) {
+    var delays = [];
+    for (i in this.childButtons) {
+      delays.push(ButtonFly.transitionDelayForButton(i));
+    }
+    var maxDelay = Math.max.apply(null, delays);
+
+    var _this = this;
+    _this.childButtons.forEach(function (btn, i) {
+      if (reverse) {
+        btn.style.transitionDelay = (maxDelay - delays[i]) * _this.options.transitionDelay + 's';
+      } else {
+        btn.style.transitionDelay = delays[i] * _this.options.transitionDelay + 's';
+      }
+    });
+  }
+
   ButtonFly.prototype.getOrCreateRowElement = function (number) {
     if (number in this.rowElements) return this.rowElements[number];
 
@@ -162,10 +180,12 @@
   };
 
   ButtonFly.prototype.show = function () {
+    this.resetTransitionDelays();
     this.element.classList.remove('buttonfly--hidden');
   };
 
   ButtonFly.prototype.hide = function () {
+    this.resetTransitionDelays(true);
     this.element.classList.add('buttonfly--hidden');
   };
 
