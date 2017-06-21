@@ -32,6 +32,9 @@
     _this.mainButton = _this.element.children[0];
     _this.mainButton.classList.add("buttonfly__button");
     _this.mainButton.classList.add("buttonfly__button--main");
+    _this.mainButton.addEventListener('click', function () {
+      if (_this.options.toggleOnMainButton) _this.toggle();
+    });
 
     _this.childButtons = Array.prototype.slice.call(_this.element.children, 1);
     _this.childButtons.forEach(function (btn, index) {
@@ -57,6 +60,7 @@
     rowLeftMarginStep: 24,
     transitionDuration: 0.25,
     transitionDelay: 0.05,
+    toggleOnMainButton: false,
   };
 
   ButtonFly.rowForButton = function (index) {
@@ -163,6 +167,15 @@
 
   ButtonFly.prototype.hide = function () {
     this.element.classList.add('buttonfly--hidden');
+  };
+
+  ButtonFly.prototype.isShown = function () {
+    return !this.element.classList.contains('buttonfly--hidden');
+  };
+
+  ButtonFly.prototype.toggle = function () {
+    if (this.isShown()) this.hide();
+    else this.show();
   };
 
   window.ButtonFly = ButtonFly;
