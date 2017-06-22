@@ -98,7 +98,7 @@ var bf = new ButtonFly(document.getElementById('buttonfly'), {
 
   __Default__: `20`
 
-* `rotationMaxY`: maximum number of degrees, the menu can rotate by Y axis. This options has no meaning when 3d effect is disabled.
+* `rotationMaxY` - maximum number of degrees, the menu can rotate by Y axis. This options has no meaning when 3d effect is disabled.
 perspective: 1000,
 
   __Default__: `20`
