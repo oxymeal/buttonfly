@@ -40,6 +40,7 @@
     _this.childButtons.forEach(function (btn, index) {
       btn.classList.add("buttonfly__button");
       btn.classList.add("buttonfly__button--child");
+      btn.classList.add("buttonfly__button--var" + _this.variationForButton(index));
 
       btn.style.transitionDuration = _this.options.transitionDuration + 's';
     });
@@ -67,6 +68,7 @@
     transitionDuration: 0.15,
     transitionDelay: 0.05,
     toggleOnMainButton: false,
+    buttonsVariations: 4,
     hover3dEffect: false,
     rotationPixPerDeg: 50,
     rotationMaxX: 20,
@@ -144,6 +146,16 @@
     posDelay = pos.pos;
 
     return rowDelay + posDelay;
+  }
+
+  ButtonFly.prototype.variationForButton = function (index) {
+    var vars = this.options.buttonsVariations;
+
+    // These calculations were made up experimentally.
+    var pos = ButtonFly.posForButton(index);
+    var a = Math.abs(pos.row) % vars;
+    var b = pos.pos % vars;
+    return (a * (vars - 1) + b) % vars;
   }
 
   // Updates 'transition-delay' property on all child buttons.
