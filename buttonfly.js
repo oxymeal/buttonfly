@@ -77,10 +77,16 @@
     if (_this.options.onlyWrapMainButton) {
       _this.updateMainButtonWrap();
     }
+
+    // Hide on scrolling.
+    window.addEventListener('scroll', function (e) {
+      if (_this.options.hideOnScrolling) _this.hide();
+    });
   };
 
   ButtonFly.defaultOptions = {
     initiallyShown: false,
+    hideOnScrolling: true,
     onlyWrapMainButton: false,
     rowLeftMarginStep: 24,
     transitionDuration: 0.15,
