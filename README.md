@@ -103,6 +103,10 @@ perspective: 1000,
 
   __Default__: `20`
 
+* `onInit` - callback function, which recieves one argument of type `ButtonFly`. When component is initalized, this callback will recieve the initialized instance of component.
+
+  __Default__: `null`
+
 ## Styling
 
 If you want to tweak the appearance of ButtonFly, edit `buttonfly.theme.css` however you like it.

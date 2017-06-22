@@ -82,6 +82,9 @@
     window.addEventListener('scroll', function (e) {
       if (_this.options.hideOnScrolling) _this.hide();
     });
+
+    // On init callback.
+    if (_this.options.onInit) _this.options.onInit(_this);
   };
 
   ButtonFly.defaultOptions = {
@@ -98,6 +101,7 @@
     rotationMaxX: 20,
     rotationMaxY: 20,
     perspective: 1000,
+    onInit: null,
   };
 
   ButtonFly.rowForButton = function (index) {
