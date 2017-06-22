@@ -1,6 +1,15 @@
 .buttonfly {
+  display: inline-block;
+  position: relative;
   transform-origin: left;
   transition: transform 0.1s ease;
+}
+
+.buttonfly__wrap {
+  width: 10000px;
+}
+.buttonfly--only-wrap-main .buttonfly__wrap {
+  position: absolute;
 }
 
 .buttonfly__row {

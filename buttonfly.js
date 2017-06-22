@@ -29,6 +29,7 @@
     _this.element = element;
     _this.element.classList.add("buttonfly");
     if (!_this.options.initiallyShown) _this.element.classList.add("buttonfly--hidden");
+    if (_this.options.onlyWrapMainButton) _this.element.classList.add("buttonfly--only-wrap-main");
 
     _this.mainButton = _this.element.children[0];
     _this.mainButton.classList.add("buttonfly__button");
@@ -46,6 +47,10 @@
       btn.style.transitionDuration = _this.options.transitionDuration + 's';
     });
 
+    _this.wrap = document.createElement('div');
+    _this.wrap.classList.add("buttonfly__wrap");
+    _this.element.append(_this.wrap);
+
     // Split elements into rows.
     _this.rowElements = {};
     _this.getOrCreateRowElement(0).append(this.mainButton);
@@ -55,6 +60,7 @@
       rowElem.append(btn);
     });
 
+    // 3d effect.
     document.addEventListener('mousemove', function (e) {
       if (_this.isShown() && _this.options.hover3dEffect) {
         _this.set3dRotation(e.clientX, e.clientY);
@@ -62,10 +68,20 @@
         _this.reset3dRotation();
       }
     });
+
+    // Main button wrapping.
+    window.addEventListener('resize', function (e) {
+      if (!_this.options.onlyWrapMainButton) return;
+      _this.updateMainButtonWrap();
+    });
+    if (_this.options.onlyWrapMainButton) {
+      _this.updateMainButtonWrap();
+    }
   };
 
   ButtonFly.defaultOptions = {
     initiallyShown: false,
+    onlyWrapMainButton: false,
     rowLeftMarginStep: 24,
     transitionDuration: 0.15,
     transitionDelay: 0.05,
@@ -190,15 +206,15 @@
 
     if (number == 0) {
       elem.classList.add('buttonfly__row--middle');
-      this.element.prepend(elem);
+      this.wrap.prepend(elem);
     } else if (number > 0) {
       elem.classList.add('buttonfly__row--top');
       var refRow = this.getOrCreateRowElement(number - 1);
-      this.element.insertBefore(elem, refRow);
+      this.wrap.insertBefore(elem, refRow);
     } else {
       elem.classList.add('buttonfly__row--bottom');
       var refRow = this.getOrCreateRowElement(number + 1);
-      this.element.insertBefore(elem, refRow.nextSibling);
+      this.wrap.insertBefore(elem, refRow.nextSibling);
     }
 
     this.rowElements[number] = elem;
@@ -224,6 +240,30 @@
   ButtonFly.prototype.toggle = function () {
     if (this.isShown()) this.hide();
     else this.show();
+  };
+
+  ButtonFly.prototype.copyMainButtonDim = function () {
+    // Because 3d rotations make the component explode.
+    this.reset3dRotation();
+    var bounds = this.mainButton.getBoundingClientRect();
+    this.element.style.width = bounds.width + 'px';
+    this.element.style.height = bounds.height + 'px';
+  };
+
+  ButtonFly.prototype.shiftWrapUp = function () {
+    var height = 0;
+    for (var num in this.rowElements) {
+      if (!this.rowElements.hasOwnProperty(num)) continue;
+      if (num <= 0) continue;
+      var bounds = this.rowElements[num].getBoundingClientRect();
+      height += bounds.height;
+    }
+    this.wrap.style.top = (-height) + 'px';
+  };
+
+  ButtonFly.prototype.updateMainButtonWrap = function () {
+    this.copyMainButtonDim();
+    this.shiftWrapUp();
   };
 
   ButtonFly.prototype.set3dRotation = function (cursorClientX, cursorClientY) {
