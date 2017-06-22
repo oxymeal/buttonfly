@@ -28,6 +28,7 @@
     // Update and save button elements.
     _this.element = element;
     _this.element.classList.add("buttonfly");
+    if (!_this.options.initiallyShown) _this.element.classList.add("buttonfly--hidden");
 
     _this.mainButton = _this.element.children[0];
     _this.mainButton.classList.add("buttonfly__button");
@@ -64,6 +65,7 @@
   };
 
   ButtonFly.defaultOptions = {
+    initiallyShown: false,
     rowLeftMarginStep: 24,
     transitionDuration: 0.15,
     transitionDelay: 0.05,
