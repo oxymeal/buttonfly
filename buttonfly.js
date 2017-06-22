@@ -85,7 +85,7 @@
     rowLeftMarginStep: 24,
     transitionDuration: 0.15,
     transitionDelay: 0.05,
-    toggleOnMainButton: false,
+    toggleOnMainButton: true,
     buttonsVariations: 4,
     hover3dEffect: false,
     rotationPixPerDeg: 50,
