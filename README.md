@@ -110,3 +110,21 @@ perspective: 1000,
 ## Styling
 
 If you want to tweak the appearance of ButtonFly, edit `buttonfly.theme.css` however you like it.
+
+## API
+
+### Properties of `ButtonFly`
+
+* `element` - the root html element of the component.
+* `wrap` - the wrapping element placed inside the root element.
+* `rowElements` - an object, mapping row numbers to row elements. The middle row is numbered 0, the rows to the top are numbered 1, 2, 3 etc., the rows to the bottom are numbered -1, -2, -3 etc.
+* `mainButton` - the element of main button.
+* `childButtons` - the list of elements of all buttons except the main one.
+* `options` - the options object of the instance, including default ones. __Please__, do not edit this object.
+
+### Methods of `ButtonFly`
+
+* `show()` - open up the menu.
+* `hide()` - hide the menu.
+* `isShown()` - returns `true` if menu is open.
+* `toggle()` - open the menu if it's closed or close if it's open.
