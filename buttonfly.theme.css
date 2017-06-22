@@ -1,0 +1,27 @@
+.buttonfly__button {
+  font-family: sans-serif;
+  padding: 20px 40px;
+  color: white;
+  font-size: 18px;
+  text-decoration: none;
+}
+.buttonfly__button--main {
+  background-color: #004f51;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.buttonfly__button--var0 {
+  background-color: #c768b6;
+}
+.buttonfly__button--var1 {
+  background-color: #6f79cc;
+}
+.buttonfly__button--var2 {
+  background-color: #8f4cb4;
+}
+.buttonfly__button--var3 {
+  background-color: #6d45b6;
+}
+.buttonfly__button--var4 {
+  background-color: #fb726a;
+}
